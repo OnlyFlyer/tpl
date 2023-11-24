@@ -8,7 +8,7 @@ function Child () {
 };
 
 function Content() {
-  console.log('render body');
+  console.log('render content');
   return (
     <>
       <FolderTree />

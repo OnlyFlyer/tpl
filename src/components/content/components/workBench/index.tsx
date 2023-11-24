@@ -15,10 +15,9 @@ export const WorkBenchChild = () => {
   );
 };
 
-// Demo WorkBench
-function WorkBench() {
+function ExchangedComp() {
   const [num, setNum] = useState<number>(1);
-  console.log('render WorkBench');
+  console.log('render ExchangeComp');
   return (
     <>
       <input
@@ -28,6 +27,16 @@ function WorkBench() {
         }}
       />
       <p>num is {num}</p>
+    </>
+  );
+};
+
+// Demo WorkBench
+function WorkBench() {
+  console.log('render WorkBench');
+  return (
+    <>
+      <ExchangedComp />
       <WorkBenchChild />
     </>
   );
