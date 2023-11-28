@@ -36,6 +36,9 @@
     "jest-resolve": "^27.4.2",
     "jest-watch-typeahead": "^1.0.0",
     "mini-css-extract-plugin": "^2.4.5",
+    "monaco-editor": "^0.32.0",
+    "monaco-editor-nls": "^3.1.0",
+    "monaco-editor-webpack-plugin": "^7.1.0",
     "postcss": "^8.4.4",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-loader": "^6.2.1",
@@ -140,5 +143,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "monaco-editor-esm-webpack-plugin": "^2.1.0"
   }
 }

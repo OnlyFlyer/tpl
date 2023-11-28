@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import './App.css';
-import { Header, Footer, Content } from './components';
-import { RootContext, type RootContextType } from './context';
+import { Header, Footer, Content, Editor } from './components';
+import { type RootContextType } from './context';
 
 const initState: RootContextType['state'] = {
   name: '张三',
@@ -14,9 +14,10 @@ function App() {
   // const [, setStr] = useState<string>();
   return (
     <>
-      <Header />
+      <Editor />
+      {/* <Header />
       <Content />
-      <Footer />
+      <Footer /> */}
       {/* <input onChange={(e) => { setStr(e.target.value) }} /> */}
     </>
   );
