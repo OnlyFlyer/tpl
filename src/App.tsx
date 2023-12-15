@@ -12,6 +12,7 @@ const initState: RootContextType['state'] = {
 // Demo1
 function App() {
   // const [, setStr] = useState<string>();
+  console.log('test github ssh-key');
   return (
     <>
       <Editor />
