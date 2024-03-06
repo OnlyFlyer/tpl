@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import './App.css';
 import { Header, Footer, Content, Editor, Super } from './components';
 import { type RootContextType } from './context';
-import { add, subtract, multiple, print } from './utils';
+import { add, subtract, multiple, print, divide } from './utils';
 
 export const foo = 'foo';
 export const bar = 'bar';
@@ -40,35 +40,26 @@ function App() {
   const c = multiple(1,2);
   let xx = 1;
   console.log(window);
+  const aa = useMemo(() => {
+    return [...arr, Math.random()];
+  }, [arr]);
+  console.log(aa, '--aa');
   const x = new Aa();
   console.log(x, '--xx');
-  // const d = divide(1,2);
-  function fn() {
-    const a = 1;
-    const b = 2;
-    return function() {
-      const c = 3;
-      const d = 4;
-      return function() {
-        const e = 5;
-        // eval("console.log(a, c, e)");
-        console.log(a, c, e);
-      }
-    }
-  };
-
-  const f = fn()();
-  f();
+  const d = divide(1,2);
   return (
     <>
     {a}-
     {b}-
-    {c}
-    {/* {d} */}
-    {/* {arr.map((e, i) => <span key={i}>{`第${i}个： ${e}`}</span>)}
+    {c}-
+    {d}
+    {arr.map((e, i) => <span key={i}>{`第${i}个： ${e}`}</span>)}
     <div onClick={() => {
     setArr([])
-    }}>变换</div> */}
+    }}>变换</div>
+    <div onClick={() => {
+      setArr(['1']);
+    }}>xx</div>
       {/* <Editor /> */}
       {/* <Super a={1} b={2} /> */}
       {/* <Header />
