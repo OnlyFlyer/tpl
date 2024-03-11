@@ -39,6 +39,7 @@ function App() {
   const b = subtract(1,2);
   const c = multiple(1,2);
   let xx = 1;
+  console.log('render App');
   console.log(window);
   const aa = useMemo(() => {
     return [...arr, Math.random()];
@@ -62,9 +63,9 @@ function App() {
     }}>xx</div>
       {/* <Editor /> */}
       {/* <Super a={1} b={2} /> */}
-      {/* <Header />
+      <Header />
       <Content />
-      <Footer /> */}
+      <Footer />
       {/* <input onChange={(e) => { setStr(e.target.value) }} /> */}
     </>
   );

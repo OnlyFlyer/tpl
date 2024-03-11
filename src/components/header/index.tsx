@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 type IHeaderProps = {
   num?: number;
   updateNum?: (num: number) => void;
 };
 
-export default function Header(p: IHeaderProps) {
+function Header(p: IHeaderProps) {
   console.log('render header');
   return <p>i'm Header</p>;
 }
+
+export default memo(Header);
