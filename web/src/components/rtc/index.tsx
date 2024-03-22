@@ -18,9 +18,8 @@ const RTC =  () => {
   async function startPeerConnection(stream: MediaStream) {
       const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
       const peerConnection = new RTCPeerConnection(configuration);
-      console.log(stream.getTracks());
       peerConnection.addEventListener('connectionstatechange', (e) => {
-        console.log(e, '--29');
+        console.log(e, '--29 connectionstatechange');
       })
 
       // 添加本地音视频流到 PeerConnection
