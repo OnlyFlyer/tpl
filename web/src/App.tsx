@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import './App.css';
-import { Header, Footer, Content, Editor, Super } from './components';
+import { Header, Footer, Content, Super, Rtc } from './components';
 import { type RootContextType } from './context';
-import { add, subtract, multiple, print, divide } from './utils';
+// import { add, subtract, multiple, print, divide } from './utils';
 
 export const foo = 'foo';
 export const bar = 'bar';
@@ -13,59 +13,17 @@ const initState: RootContextType['state'] = {
   addr: '浙江杭州',
 };
 
-console.log('13333');
-
-
-const initArr = new Array(100000).fill(0).map((e, i) => `${e}_${i}`);
-
-// function Aa() {
-
-// };
-
-class Aa {
-  a: number;
-  b: number;
-  constructor() {
-    this.a = 1;
-    this.b = 2;
-    return {a: 3, b: 4};
-  };
-};
-
 // Demo1
 function App() {
-  const [arr, setArr] = useState<string[]>(initArr);
-  const a = add(1,2);
-  const b = subtract(1,2);
-  const c = multiple(1,2);
-  let xx = 1;
-  console.log('render App');
-  console.log(window);
-  const aa = useMemo(() => {
-    return [...arr, Math.random()];
-  }, [arr]);
-  console.log(aa, '--aa');
-  const x = new Aa();
-  console.log(x, '--xx');
-  const d = divide(1,2);
+  const [arr, setArr] = useState<string[]>([]);
   return (
     <>
-    {a}-
-    {b}-
-    {c}-
-    {d}
-    {arr.map((e, i) => <span key={i}>{`第${i}个： ${e}`}</span>)}
-    <div onClick={() => {
-    setArr([])
-    }}>变换</div>
-    <div onClick={() => {
-      setArr(['1']);
-    }}>xx</div>
+      <Rtc />
       {/* <Editor /> */}
       {/* <Super a={1} b={2} /> */}
-      <Header />
+      {/* <Header />
       <Content />
-      <Footer />
+      <Footer /> */}
       {/* <input onChange={(e) => { setStr(e.target.value) }} /> */}
     </>
   );
