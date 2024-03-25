@@ -1,0 +1,217 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('server:server');
+var http = require('http');
+const WebSocket = require('ws');
+
+class WebSocketServer extends WebSocket.Server {
+  constructor() {
+    super(...arguments);
+    this.webSocketClient = {}; //存放已连接的客户端
+  }
+
+  set ws(val) {
+    //代理当前的ws，赋值时将其初始化
+    this._ws = val;
+    val.t = this;
+    val.on("error", this.errorHandler);
+    val.on("close", this.closeHandler);
+    val.on("message", this.messageHandler);
+  }
+
+  get ws() {
+    return this._ws;
+  }
+
+  messageHandler(e) {
+    // ws 信息传送
+    console.info('接收客户端消息1')
+    let data = JSON.parse(e)
+    console.log('接收客户端消息2', data);
+    switch(data.code) {
+        case 'message':
+            console.log('收到消息' + data.msg)
+            this.send(e)
+            break;
+        case 'heartBeat':
+            console.log(`收到${this.name}心跳${data.msg}`)
+            this.send(e)
+            break;
+        case 'open':
+          console.log('第一次连接');
+          // this.send(e);
+    }
+    return;
+  }
+
+  errorHandler(e) {
+    this.t.removeClient(this);
+    console.info("客户端出错");
+  }
+
+  closeHandler(e) {
+    this.t.removeClient(this);
+    console.info("客户端已断开");
+  }
+
+  addClient(item) {
+    //设备上线时添加到客户端列表
+    if (this.webSocketClient[item["name"]]) {
+      console.log(item["name"] + "客户端已存在");
+      this.webSocketClient[item["name"]].close();
+    }
+    console.log(item["name"] + "客户端已添加");
+    this.webSocketClient[item["name"]] = item;
+  }
+
+  removeClient(item) {
+    //设备断线时从客户端列表删除
+    if (!this.webSocketClient[item["name"]]) {
+      console.log(item["name"] + "客户端不存在");
+      return;
+    }
+    console.log(item["name"] + "客户端已移除");
+    this.webSocketClient[item["name"]] = null;
+  }
+}
+
+
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3001');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+const io = require('socket.io')(http);
+
+
+//验证url标准
+function checkUrl (url, key) {//判断url是否包含key
+  return - ~ url.indexOf(key)
+}
+
+const wss = new WebSocketServer({ noServer: true });
+
+const pathname = '/ws/'//访问路径
+
+server.on('upgrade', (req, socket, head) => {
+  // 通过 http.server 过滤数据
+  let url = new URL(req.url, `http://${req.headers.host}`);
+  const name = url.searchParams.get('name'); // 获取连接标识
+  if (!checkUrl(url.pathname, pathname)) {
+    // 未按标准;
+    console.log('未按标准，关闭 socket 连接');
+    // wss._ws.close?.();
+    return;
+  }
+  wss.handleUpgrade(req, socket, head, function(ws) {
+    ws.name = name; // 添加索引，方便客户端列表查询某一个 socket 连接
+    wss.addClient(ws);
+    wss.ws = ws;
+  });
+});
+
+io.on('connect', () => {
+  console.log('a user connected');
+
+  socket.on('offer', function(offer) {
+      console.log('Received offer from client:', offer);
+      socket.broadcast.emit('offer', offer);
+  });
+
+  socket.on('answer', function(answer) {
+      console.log('Received answer from client:', answer);
+      socket.broadcast.emit('answer', answer);
+  });
+
+  socket.on('candidate', function(candidate) {
+      console.log('Received ICE candidate from client:', candidate);
+      socket.broadcast.emit('candidate', candidate);
+  });
+
+  socket.on('disconnect', function() {
+      console.log('user disconnected');
+  });
+});
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

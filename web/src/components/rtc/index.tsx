@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-const RTC =  () => {
+const RTC =  ({ randomNumber }: { randomNumber: number }) => {
   const startStreaming = async () => {
     const videoElement = document.getElementById('localVideo');
     try {
@@ -43,6 +43,7 @@ const RTC =  () => {
     <div>
       <h1>WebRTC Audio/Video Sender</h1>
       <video id="localVideo" muted autoPlay></video>
+      {randomNumber}
     </div>
   );
 };

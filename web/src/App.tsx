@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import './App.css';
-import { Header, Footer, Content, Super, Rtc } from './components';
+import { Header, Footer, Content, Super, Rtc, TplWebSocket } from './components';
 import { type RootContextType } from './context';
 // import { add, subtract, multiple, print, divide } from './utils';
 
@@ -18,7 +18,9 @@ function App() {
   const [arr, setArr] = useState<string[]>([]);
   return (
     <>
-      <Rtc />
+      <Rtc randomNumber={3} />
+      <br />
+      <TplWebSocket randomNumber={1} />
       {/* <Editor /> */}
       {/* <Super a={1} b={2} /> */}
       {/* <Header />
