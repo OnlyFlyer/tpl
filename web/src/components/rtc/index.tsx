@@ -16,7 +16,7 @@ const RTC =  ({ randomNumber }: { randomNumber: number }) => {
   }
   };
   async function startPeerConnection(stream: MediaStream) {
-      const configuration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+      const configuration: RTCConfiguration = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
       const peerConnection = new RTCPeerConnection(configuration);
       peerConnection.addEventListener('connectionstatechange', (e) => {
         console.log(e, '--29 connectionstatechange');
