@@ -27,6 +27,7 @@ const ForkTsCheckerWebpackPlugin =
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const MonacoESMWebpackPlugin = require('monaco-editor-esm-webpack-plugin');
 const SpeedMeasureWebpackPlugin = require('speed-measure-webpack-plugin');
+const BundleAnalyzerWebpackPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const createEnvironmentHash = require('./webpack/persistentCache/createEnvironmentHash');
 
@@ -571,6 +572,7 @@ module.exports = function (webpackEnv) {
       ].filter(Boolean),
     },
     plugins: [
+      new BundleAnalyzerWebpackPlugin(),
       new SpeedMeasureWebpackPlugin(),
       new MonacoESMWebpackPlugin({
           languages: ['javascript', 'typescript', 'css', 'json'],
