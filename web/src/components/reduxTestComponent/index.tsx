@@ -1,6 +1,6 @@
 import { Space, Button, Spin } from 'antd';
 import { useRootDispatch, useRootSelector } from '../../hooks';
-import { updateGoods, goodsGetGoodsListThunk } from '../../store/models/goods';
+import { userGetUserInfo, goodsGetGoodsListThunk } from '../../store/models';
 
 export default function Test() {
   const { user, goods } = useRootSelector(state => state);
@@ -21,6 +21,9 @@ export default function Test() {
             payload: { name: 'yyy' },
           });
         }} type='primary'>update userName</Button>
+        <Button type='primary' onClick={() => {
+          dispatch(userGetUserInfo({ name: '李四', addr: '四川南充', age: 22, company: '杭州市公安局' }));
+        }}>getUserInfo</Button>
         <Button type='primary' onClick={() => {
           dispatch(goodsGetGoodsListThunk({ randomKey: Math.random() }));
         }}>update goodsRandomKey</Button>
