@@ -1,5 +1,9 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useContext } from 'react';
 import { debounce } from 'lodash';
+
+import { RootContext } from '../context';
+
+export * from './store';
 
 export const isFunction = (value: unknown): value is Function => typeof value === 'function';
 
@@ -51,7 +55,6 @@ export const useTime = (now: number, setNow: Function) => {
 };
 
 export const useWinResize = ({ dom = document.body } = {}) => {
-  debugger;
   const [sizes, setSizes] = useState({ width: 0, height: 0 });
   const initSize = useCallback(() => {
     try {
@@ -71,4 +74,9 @@ export const useWinResize = ({ dom = document.body } = {}) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initSize]);
   return sizes;
+};
+
+export const useContextData = (ctx = RootContext) => {
+  const { state } = useContext(ctx);
+  return state;
 };

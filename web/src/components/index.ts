@@ -5,3 +5,4 @@ export { default as Header } from './header';
 export { default as Super } from './super';
 export { default as Rtc } from './rtc';
 export { default as TplWebSocket } from './websocket';
+export { default as ReduxTestComp } from './reduxTestComponent';

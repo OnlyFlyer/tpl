@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import './App.css';
-import { Header, Footer, Content, Super, Rtc, TplWebSocket } from './components';
-import { type RootContextType } from './context';
+import { Header, Footer, Content, Super, Rtc, TplWebSocket, ReduxTestComp } from './components';
+import { type RootContextType, RootContext } from './context';
 import { Button, Space } from 'antd';
 import { useWinResize } from './hooks';
 // import { add, subtract, multiple, print, divide } from './utils';
@@ -17,14 +17,17 @@ const initState: RootContextType['state'] = {
 
 // Demo1
 function App() {
-  debugger;
   const [arr, setArr] = useState<string[]>([]);
+  const [state, updateState] = useState(initState);
   const [num1, setNum1] = useState(1);
   const [num2, setNum2] = useState(2);
   const [num3, setNum3] = useState(3);
   const { width, height } = useWinResize();
+  const rootContextValue = useMemo(() => {
+    return { state, updateState };
+  }, [state, updateState]);
   return (
-    <>
+    <RootContext.Provider value={rootContextValue}>
       {/* <Rtc randomNumber={3} /> */}
       <br />
       {/* <TplWebSocket randomNumber={1} /> */}
@@ -36,11 +39,12 @@ function App() {
       </Space>
       {/* <Editor /> */}
       {/* <Super a={1} b={2} /> */}
-      {/* <Header />
-      <Content />
-      <Footer /> */}
+      {/* <Header /> */}
+      <ReduxTestComp />
+      {/* <Content /> */}
+      {/* <Footer /> */}
       {/* <input onChange={(e) => { setStr(e.target.value) }} /> */}
-    </>
+    </RootContext.Provider>
   );
 };
 
