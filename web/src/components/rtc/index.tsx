@@ -5,6 +5,14 @@ const RTC =  ({ randomNumber }: { randomNumber: number }) => {
   const startStreaming = async () => {
     const videoElement = document.getElementById('localVideo');
     try {
+    // 录屏代码
+    //   navigator.mediaDevices.getDisplayMedia({ video: true, audio: true }).then((s) => {
+    //     const screenElement = document.getElementById('localScreen');
+    //     if (screenElement) {
+    //       // @ts-ignore
+    //       screenElement.srcObject = s
+    //     }
+    //   });
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: { width: 680, height: 460 } });
       if (videoElement) {
         // @ts-ignore
@@ -44,6 +52,7 @@ const RTC =  ({ randomNumber }: { randomNumber: number }) => {
       <h1>WebRTC Audio/Video Sender</h1>
       <video id="localVideo" muted autoPlay></video>
       {randomNumber}
+      <video id="localScreen" muted autoPlay />
     </div>
   );
 };
